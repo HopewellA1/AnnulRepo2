@@ -1,0 +1,165 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+
+.inp{
+    padding:10px
+}
+tr{
+    padding:1rem;
+    border:solid 1px black;
+}
+td{
+    padding:1rem;
+    border:solid 1px black;
+}
+table{
+    width:7%;
+    border:solid 2px black;
+}
+</style>
+<div>
+    {% if oncreate == True %}
+        <a class="btn btn-default btn-success" href="{% url 'AnsDistricts' numDone=numDone %}">Back, and continue survey</a>
+    {% endif %}
+</div>
+<div>
+    <center>
+        <h1>
+            <b>
+                <u>{{district.DistrictName}}</u>
+            </b>
+        </h1>
+        {{federation.FederationName}}
+    </center>
+
+</div>
+<br/>
+
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+<br/>
+<div class="container">
+
+    <form method="post"  style="width:inherit">
+        {% csrf_token %}
+        <!--ethnicity-->
+        <div style="display:flex;flex-direction:column">
+            <input type="hidden" value={{district.DistrictName}} name="DistrictName" />
+                
+            
+                
+
+        
+          <center>
+            Now updating for the <h3><b>{{district.DistrictName}} district</b></h3>
+          </center>
+        </div>
+        <hr/>
+        <div class="inp">
+            <label class="form-label" for="IdentityNumber">Does your federation have participants/clubs in the {{DistrictAns}} district? select below</label>
+            <div>
+                {%if district.Participation == "Yes"%}
+                <input  type="radio" value="Yes" name="Participation" checked>Yes
+
+                <input  type="radio" value="No" name="Participation" />No
+                {% else %}
+                <input  type="radio" value="Yes" name="Participation" >Yes
+
+                <input  type="radio" value="No" name="Participation" checked/>No
+                {% endif %}
+                
+            </div>
+           
+          
+         
+        </div>
+
+        <div class="inp">
+            <!--FormalStructure-->
+            <label class="form-label" for="FormalStructure">Do you have a formal structure in the {{DistrictAns}} district?</label>
+            <div>
+                {% if district.FormalStructure == "Yes" %}
+                    <input  type="radio" value="Yes" name="FormalStructure" checked="checked">Yes
+
+                    <input  type="radio" value="No" name="FormalStructure"  />No
+                {% else %}
+                    <input  type="radio" value="Yes" name="FormalStructure">Yes
+
+                    <input  type="radio" value="No" name="FormalStructure" checked="checked" />No
+                {% endif %}
+                
+            </div>
+         
+        </div>
+        <div class="inp">
+            <label class="form-label" for="IdentityNumber">If above is no please state reason</label>
+            <input style="height:100px" type="textarea" name="NoStructureReason" value="{{district.NoStructureReason}}"  class="form-control form-control-lg">
+            
+         
+        </div>
+        <div class="inp">
+            <label class="form-label" for="ContactPersonName">Contact person name</label>
+            <input  type="text" name="ContactPersonName" value="{{district.ContactPersonName}}"  class="form-control form-control-lg">
+        </div>
+        <div class="inp">
+            <label class="form-label" for="ContactPersonLastName">Contact person last name</label>
+            <input  type="text" name="ContactPersonLastName" value="{{district.ContactPersonLastName}}"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="Email">Contact email</label>
+            <input  type="email" name="Email" value="{{district.Email}}"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="Phone">Contact phone</label>
+            <input  type="text" name="Phone" value="{{district.Phone}}"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="NumberOfClubs">Number of clubs</label>
+            <input  type="number" name="NumberOfClubs" value="{{district.NumberOfClubs}}"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="DistrictOrProvince">Do clubs register in the district or directly to the province?</label>
+            
+            <div>
+                {% if district.DistrictOrProvince == "Province" %}
+                    <input checked type="radio" value="Province" name="DistrictOrProvince">Province
+
+                    <input  type="radio" value="District" name="DistrictOrProvince" placeholder="Identity number">District
+            
+                {% endif %}
+
+                {% if district.DistrictOrProvince == "District" %}
+                    <input type="radio" value="Province" name="DistrictOrProvince">Province
+
+                    <input checked type="radio" value="District" name="DistrictOrProvince" placeholder="Identity number">District
+           
+                {% endif %}
+           
+            </div>
+        </div>
+
+
+        <input class="btn btn-default btn-primary" style="width:100%" type="submit" value="Save changes"/>
+    </form>
+
+</div>
+
+
+
+{% endblock %}

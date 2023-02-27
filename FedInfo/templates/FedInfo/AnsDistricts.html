@@ -1,0 +1,246 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+
+.inp{
+    padding:10px
+}
+tr{
+    padding:1rem;
+    border:solid 1px black;
+}
+td{
+    padding:1rem;
+    border:solid 1px black;
+}
+table{
+    width:50%;
+    border:solid 2px black;
+}
+</style>
+<div>
+    <center>
+        <h1>
+            <b>
+                <u>{{federation.FederationName}}</u>
+            </b>
+        </h1>
+    </center>
+
+</div>
+<br/>
+<div style="border:solid 2px orange">
+
+    <center>
+        
+        <p style="color:orange">
+
+            Please add below all the district that the {{federation.FederationName}} is affiliated with<br/>
+            by filling the information for each district
+
+        </p>
+
+    </center>
+
+</div>
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+<br/>
+<div class="container">
+
+    <form method="post"  style="width:inherit">
+        {% csrf_token %}
+        <!--ethnicity-->
+        <div style="display:flex;flex-direction:column">
+            <input type="hidden" value={{DistrictAns}} name="DistrictName" />
+                
+            
+                
+
+        
+          <center>
+            Now answering for the <h3><b>{{DistrictAns}} district</b></h3>
+          </center>
+        </div>
+        <hr/>
+        <div class="inp">
+            <label class="form-label" for="IdentityNumber">Does your federation have participants/clubs in the {{DistrictAns}} district? select below</label>
+            <div>
+                <input  type="radio" value="Yes" name="Participation" >Yes
+
+                <input  type="radio" value="No" name="Participation" checked/>No
+            </div>
+           
+          
+         
+        </div>
+
+        <div class="inp">
+            <!--FormalStructure-->
+            <label class="form-label" for="FormalStructure">Do you have a formal structure in the {{DistrictAns}} district?</label>
+            <div>
+                <input required type="radio" value="Yes" name="FormalStructure">Yes
+
+                <input required type="radio" value="No" name="FormalStructure" checked="checked" />No
+            </div>
+         
+        </div>
+        <div class="inp">
+            <label class="form-label" for="IdentityNumber">If above is no please state reason</label>
+            <input style="height:100px" type="textarea" name="NoStructureReason" placeholder="Reason for not having a district structure"  class="form-control form-control-lg">
+            
+         
+        </div>
+        <div class="inp">
+            <label class="form-label" for="ContactPersonName">Contact person name</label>
+            <input required type="text" name="ContactPersonName" placeholder="Contact person name"  class="form-control form-control-lg">
+        </div>
+        <div class="inp">
+            <label class="form-label" for="ContactPersonLastName">Contact person last name</label>
+            <input required type="text" name="ContactPersonLastName" placeholder="Contact person last name"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="Email">Contact email</label>
+            <input required type="email" name="Email" placeholder="Contact email"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="Phone">Contact phone</label>
+            <input required type="text" name="Phone" placeholder="Contact Phone"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="NumberOfClubs">Number of clubs</label>
+            <input required type="number" name="NumberOfClubs" placeholder="Number of clubs"  class="form-control form-control-lg"> 
+        </div>
+        <div class="inp">
+            <label class="form-label" for="DistrictOrProvince">Do clubs register in the district or directly to the province?</label>
+            
+            <div>
+                <input type="radio" value="Province" name="DistrictOrProvince">Province
+
+                <input checked type="radio" value="District" name="DistrictOrProvince" placeholder="Identity number">District
+            </div>
+        </div>
+
+
+        <input class="btn btn-default btn-primary" style="width:100%" type="submit" value="Save and continue"/>
+    </form>
+
+</div>
+{% if districts %}
+<br/>
+<hr/>
+    <div>
+        <div style="">
+            <center>
+                <h1><b>survey responses</b></h1>
+            </center>
+        </div>
+        <hr/>
+        <div>
+            <center>
+
+                {% for district in districts %}
+                    <div>
+                        <h2><b><u>{{district.DistrictName}}</u></b><h2>
+                        <a class="btn btn-default btn-warning" href="{% url 'updateDistrict' districtId=district.DistrictId %}">Edit</a>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>
+                                Does your federation have participants/clubs in the district?
+                            </th>
+                            <td>
+                                {{district.Participation}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Does your federation have a formal structure in the district?
+                            </th>
+                            <td>
+                                {{district.FormalStructure}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Reason for not having a formal structure
+                            </th>
+                            <td>
+                                {{district.NoStructureReason}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Contact person in district
+                            </th>
+                            <td>
+                                {{district.ContactPersonName}} {{district.ContactPersonLastName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Contact phone number in district
+                            </th>
+                            <td>
+                                {{district.Phone}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Email for district contact
+                            </th>
+                            <td>
+                                {{district.Email}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Number of clubs in the district
+                            </th>
+                            <td>
+                                {{district.NumberOfClubs}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                Do clubs register in the district or directly to the province?
+                            </th>
+                            <td>
+                                {{district.DistrictOrProvince}}
+                            </td>
+                        </tr>
+                    </table>
+                   <br/>
+
+                {% endfor %}
+            </center>
+        </div>
+
+
+    </div>
+{% else %}
+<br/>
+    <div style="padding:1rem; border:solid 2px red;color:red">
+        <center>
+            <h4><b>You have not added any response on the district survey.</b></h4>
+        <center>
+    </div>
+{% endif %}
+
+
+{% endblock %}

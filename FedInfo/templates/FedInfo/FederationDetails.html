@@ -1,0 +1,184 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+    tr{
+        padding:1rem;
+        border:solid 1px black;
+    }
+    td{
+        padding:1rem;
+        border:solid 1px black;
+    }
+    table{
+        width:50%;
+        border:solid 2px black;
+    }
+</style>
+<div>
+    <center>
+        <h1>
+            <b>
+                {{federation.FederationName}}
+            </b>
+        </h1>
+    </center>
+
+</div>
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+<hr/>
+<div>
+    <center>
+        <div>
+            <h3>
+                <b>
+                    Federation information as per the respondent, {{federation.user.first_name}} {{federation.user.last_name}} are as follow.
+                </b>
+            </h3>
+        </div>
+        <hr>
+        <div>
+            <p>
+                <b>Federation name:</b> {{federation.FederationName}}<br/>
+                <b>Federation President: </b>{{federation.PresidentName}} {{federation.PresidentLastName}}<br/>
+                <b>President Email:</b> {{federation.PresidentEmail}}<br/>
+                <b>President Phone: </b> {{federation.PresidentPhone}}<br/>
+                <b>Federation contact person: </b> {{federation.ContactPersonName}} {{federation.ContactPersonLastName}}<br/>
+                <b>Contact person position: </b> {{federation.ContactPersonPosition}}<br/>
+                <b>Federation Email: </b>{{federation.Email}}<br/>
+                <b>Federation Phone: </b> {{federation.Phone}}<br/>
+                <b>Year updated for: </br> {{federation.yearUpdate}}<br/>
+                {% if user.is_superuser == True %}
+                    <a style="width:40%;border:solid 2px black" class="btn btn-default btn-warning" href="{% url 'ViewFederations'%}">Back to list</a>
+                {%else %}
+                <a style="width:40%;border:solid 2px black" class="btn btn-default btn-warning" href="{% url 'updateFederation' %}"><b>Edit</b></a><br/>
+
+                {% endif %}
+            </p>
+
+
+        <div>
+        <hr/>
+        <div>
+            <div style="">
+                <center>
+                    <h1><b>survey responses</b></h1><br/>
+                    <div>
+                        <h4>
+                            <b>Responses made per federation</b>
+                        </h4>
+                    <div>
+                </center>
+            </div>
+            <hr/>
+            <div>
+                <center>
+    
+                    {% for district in districts %}
+                        <div>
+                            <h2><b><u>{{district.DistrictName}}</u></b><h2>
+                                
+                            {% if user.is_superuser == True %}
+                            
+                            {% else %}
+                            <a class="btn btn-default btn-warning" href="{% url 'updateDistrict' districtId=district.DistrictId %}">Edit</a>
+                            
+
+                            {% endif %}
+                        </div>
+                        <table>
+                            <tr>
+                                <th>
+                                    Does your federation have participants/clubs in the district?
+                                </th>
+                                <td>
+                                    {{district.Participation}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Does your federation have a formal structure in the district?
+                                </th>
+                                <td>
+                                    {{district.FormalStructure}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Reason for not having a formal structure
+                                </th>
+                                <td>
+                                    {{district.NoStructureReason}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Contact person in district
+                                </th>
+                                <td>
+                                    {{district.ContactPersonName}} {{district.ContactPersonLastName}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Contact phone number in district
+                                </th>
+                                <td>
+                                    {{district.Phone}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Email for district contact
+                                </th>
+                                <td>
+                                    {{district.Email}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Number of clubs in the district
+                                </th>
+                                <td>
+                                    {{district.NumberOfClubs}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Do clubs register in the district or directly to the province?
+                                </th>
+                                <td>
+                                    {{district.DistrictOrProvince}}
+                                </td>
+                            </tr>
+                        </table>
+                       <br/>
+    
+                    {% endfor %}
+                </center>
+            </div>
+    
+    
+        </div>
+
+    </center>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div>
+    <center>
+        <h1 style="color:gray"><b>KwaZulu-Natal Sports Confederation</b></h1>
+        <hr/>
+    </center>
+</div>
+<div>
+    <center>
+        <p>
+            Hello Colleagues: The KZN Sports Confederation (KZNSC) is the provincial structure that represents and acts on behalf 
+            of SASCOC in the provinces. The KZNSC and SASCOC constitutions requires that all provincial federations register with the KZNSC and that
+             the federations setup structures in each of the 11 districts in KZN. This is to ensure that we integrate our service delivery 
+             systems with those of the government and municipal structures. Could you please give us with an indication of how widely distributed your 
+             federation is into the 11 Districts. Please indicate the status of your district structures and the contact details of the structures where you have setup 
+             formally elected structures. If there is only a club structure in a district, provide the details of the club as the interim contact for the district. If the federation is not
+              active in a particular district, please mark as “Not Active at this stage”  Thank you very much for your time and support. Email peter@kznsc.com for any queries. 
+               Please update your District Details now by  Creating an account and click on the button  “Start Survey”  button below. 
+
+        </p>
+        <hr/>
+        <div>
+            {% if user.is_authenticated %}
+                {% if numDone != 0%}
+                    {% if numDone <= 11 %}
+                    <div style="border:solid 2px green; width:60%;display:flex;flex-direction:column;justify-content:center;padding:5px">
+                    
+                        <div><p>Some district were not covered on the survey, please click "Continue" to finish up.</p></div>
+                        <div>
+                          <a style="width:60%;color:white" class="btn btn-danger" href="{% url 'AnsDistricts' numDone=numDone %}">Continue</a>
+                        </div>
+                  
+                    </div>
+                    {% else %}
+                    <div style="border:solid 2px green; width:60%;display:flex;flex-direction:column;justify-content:center;padding:5px">
+                    
+                        <div><p>Thank you for completing the survey, you can view your respones by clicking below</p></div>
+                        <div>
+                          <a style="width:60%;color:white" class="btn btn-success" href="{% url 'FederationDetails' federationId=0 %}">Continue</a>
+                        </div>
+                  
+                    </div>
+                    {% endif %}
+
+                {% else %}
+                <a class="btn btn-primary" href="{% url 'addFederation' %}">Start Survey</a> 
+                {% endif %}
+                {% if user.is_superuser == True %}
+                <br/>
+                <br/>
+                <div style="border:solid 2px green; width:60%;display:flex;flex-direction:column;justify-content:center;padding:5px">
+                    
+                  <div><p>You have a super user account, please click below to view all federation updates</p></div>
+                  <div>
+                    <a style="width:60%;color:white" class="btn btn-warning" href="{% url 'ViewFederations' %}">All responses</a>
+                  </div>
+            
+                </div>
+              {% endif %}
+            {% else %}
+                <a class="btn btn-primary" href="{% url 'Signup' %}">Signup</a> <a class="btn btn-info" href="{% url 'login' %}">Login</a>
+            
+            {% endif %}
+        </div>
+    </center>
+
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+
+
+
+{% endblock %}

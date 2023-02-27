@@ -1,0 +1,68 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+
+    #fedItem{
+        width:80%;
+        height:90px;
+        padding:10px;
+        border:solid 1px green;
+
+    }
+    #fedItem:hover{
+        cursor:pointer;
+        border:solid 3px orange;
+        color:orange
+
+    }
+
+</style>
+
+    <div>
+        <center>
+            <div>
+                <h1>KZNSC ANNUAL REPORT FEDERATION</h1>
+            </div>
+            <div>
+                <h4><b>This list includes all the federation that have made responses to th esurvey.</b></h4>
+            </div>
+
+        </center>
+    </div>
+    <hr>
+    <div>
+        <center>
+            <div style="cursor:pointer">
+                {% for item in federations %}
+                    <div onclick="itemClick({{item.FedId}})" id="fedItem">
+                        <h2><b>{{item.FederationName}}</b></h2>
+                            <b>Year updated for: {{item.yearUpdate}}</b>
+                       
+                    </div>
+                    <a id="{{item.FedId}}" hidden href="{% url 'FederationDetails' federationId=item.FedId %}"></a>
+                    <br/>
+                    <br/>
+                    <script>
+                        fedItemLink = document.getElementById("fedItemLink");
+                        fedItem = document.getElementById("fedItem");
+                        
+                        fedItem.addEventListener("click", function(){
+                            console.log("Hi")
+                            
+                        })
+                        function itemClick(id){
+                            fedItemLink = document.getElementById(id);
+                            fedItemLink.click();
+
+                        }
+                    </script>
+                {% endfor%}
+            </div>
+        </center>
+    </div>
+    
+
+
+{% endblock %}

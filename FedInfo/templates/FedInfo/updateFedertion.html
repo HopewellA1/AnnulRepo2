@@ -1,0 +1,199 @@
+{% extends "FedInfo/base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div style="padding:1rem">
+        <center>
+            <p>
+                <h2>
+                    <b>{{federation.FederationName}}</b>
+                </h2>
+            </p>
+        </center>
+    </div>
+    {% if messages %}
+{% for message in messages %}
+  <div>
+    <center>
+        <div style="padding:0.5rem; background-color:white;color:green; border:solid 2px green">
+          <p>
+              <h3><b>{{ message }}</b></h3>
+          </p>
+        </div>
+      </center>
+    </div>
+
+{% endfor %}
+{% endif %}
+<div style="padding:10px">
+    <a class="btn btn-default btn-success" style="background-color:white; border:solid 2px green; color:green; width:100%" href="{% url 'AnsDistricts' numDone=0 %}"> Continue to survey </a>
+</div>
+    <form method="post"  style="width:inherit">
+        {% csrf_token %}
+        <!--yearUpdate-->
+        <div>
+            <input type="text" name="FederationName" value="{{federation.FederationName}}"  class="form-control form-control-lg">
+            <label class="form-label" for="FederationName">Federation Name</label>
+        
+        </div>
+       
+        <div style="width:100%;border:solid 2px black">
+            <center>
+                <h3>
+                    <b>
+                        Federation president information
+                    </b>
+                </h3>
+            </center>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+
+                <div class="form-outline">
+                
+                    <input  type="text" name="PresidentName" value="{{federation.PresidentName}}"  class="form-control form-control-lg">
+                    <label class="form-label" for="PresidentName">President first name</label>
+            
+                </div>
+
+            </div>
+
+        
+        
+            <div class="col-md-6 mb-4">
+
+            <div class="form-outline" style="display:flex;flex-direction: column">
+                
+                <input type="text" name="PresidentLastName" value="{{federation.PresidentLastName}}"  class="form-control form-control-lg">
+                <label class="form-label" for="Middlename">President Last name</label>
+            
+            </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+
+                <div class="form-outline">
+                
+                    <input  type="email" name="PresidentEmail" value="{{federation.PresidentEmail}}"  class="form-control form-control-lg">
+                    <label class="form-label" for="PresidentEmail">President email address</label>
+            
+                </div>
+
+            </div>
+
+        
+        
+            <div class="col-md-6 mb-4">
+
+            <div class="form-outline" style="display:flex;flex-direction: column">
+                
+                <input  type="text" name="PresidentPhone" value="{{federation.PresidentPhone}}"  class="form-control form-control-lg">
+                <label class="form-label" for="PresidentPhone">President phone</label>
+            
+            </div>
+
+            </div>
+        </div>
+
+        
+        <div style="width:100%;border:solid 2px black">
+            <center>
+                <h3>
+                    <b>
+                        Contact person information
+                    </b>
+                </h3>
+            </center>
+        </div>
+        <br/>
+
+        
+        <div>
+           
+            <input required type="text" name="ContactPersonPosition" value="{{federation.ContactPersonPosition}}" class="form-control form-control-lg">
+            <label class="form-label" for="ContactPersonPosition">Position</label>
+        
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+
+                <div class="form-outline">
+                
+                    <input type="text" name="ContactPersonName" value="{{federation.ContactPersonName}}"  class="form-control form-control-lg">
+                    <label class="form-label" for="ContactPersonName">Contact person name</label>
+            
+                </div>
+
+            </div>
+
+        
+        
+            <div class="col-md-6 mb-4">
+
+            <div class="form-outline" style="display:flex;flex-direction: column">
+                
+                <input type="text" name="ContactPersonLastName" value="{{federation.ContactPersonLastName}}"  class="form-control form-control-lg">
+                <label class="form-label" for="ContactPersonLastName">Contact person last name</label>
+            
+            </div>
+
+            </div>
+        </div>
+
+        <div style="width:100%;border:solid 2px black">
+            <center>
+                <h3>
+                    <b>
+                        Federation contact
+                    </b>
+                </h3>
+            </center>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+
+                <div class="form-outline">
+                
+                    <input  type="email"  name="ContactPersonEmail" value="{{federation.Email}}" class="form-control form-control-lg">
+                    <label class="form-label" for="ContactPersonEmail">Federation email</label>
+            
+                </div>
+
+            </div>
+            
+        
+        
+            <div class="col-md-6 mb-4">
+
+            <div class="form-outline" style="display:flex;flex-direction: column">
+                
+                <input  type="text"  name="ContactPersonPhone" value="{{federation.Phone}}"  class="form-control form-control-lg">
+                <label class="form-label" for="altcellphone">Federation phone</label>
+            
+            </div>
+
+            </div>
+        </div>
+        
+        
+        <div>
+            <div>
+                <p>
+                    <b> please indicate the year you are updating the information for.
+            <input  type="text" value="{{federation.yearUpdate}}" name="yearUpdate" class="form-control form-control-lg">
+            <label class="form-label" for="yearUpdate">year</label>
+        
+        </div>
+        
+
+        <input class="btn btn-default btn-primary" style="width:100%" type="submit" value="Save changes"/>
+    </form>
+</div>
+{% endblock %}
